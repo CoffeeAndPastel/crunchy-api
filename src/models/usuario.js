@@ -1,4 +1,4 @@
-const { Model, DataTypes, Sequelize } = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
 const USUARIO_TABLE = "usarios";
 
@@ -42,7 +42,12 @@ const usuarioSchema = {
 };
 
 class Usuario extends Model {
-    static associate(models) {}
+    static associate(models) {
+        this.hasMany(models.Pedido, { foreignKey: "usuario_id" });
+        this.hasMany(models.IngredientePorUsuario, {
+            foreignKey: "usuario_id",
+        });
+    }
 
     static config(sequelize) {
         return {
