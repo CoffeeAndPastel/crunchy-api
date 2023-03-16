@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
 
-const USUARIO_TABLE = "usarios";
+const USUARIO_TABLE = "usuarios";
 
 const usuarioSchema = {
     id: {
@@ -37,16 +37,20 @@ const usuarioSchema = {
     photoUrl: {
         type: DataTypes.STRING,
         allowNull: true,
-        field: "photo_Url",
+        field: "photo_url",
     },
 };
 
 class Usuario extends Model {
     static associate(models) {
-        this.hasMany(models.Pedido, { foreignKey: "usuario_id" });
-        this.hasMany(models.IngredientePorUsuario, {
+        this.hasMany(models.Pedido, {
+            as: "pedidos",
             foreignKey: "usuario_id",
         });
+        // this.hasMany(models.IngredientePorUsuario, {
+        //     as: "ingredientes",
+        //     foreignKey: "usuario_id",
+        // });
     }
 
     static config(sequelize) {
