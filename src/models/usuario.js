@@ -17,7 +17,7 @@ const usuarioSchema = {
         allowNull: true,
         field: "last_name",
     },
-    mail: {
+    email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
