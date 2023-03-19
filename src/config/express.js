@@ -1,5 +1,10 @@
 const express = require("express");
-const { logErrors, boomErrorHandler, sequelizeErrorHandler, errorHandler } = require("../middlewares/error.middleware");
+const {
+    logErrors,
+    boomErrorHandler,
+    sequelizeErrorHandler,
+    errorHandler,
+} = require("../middlewares/error");
 const { route, router } = require("../routes");
 const app = express();
 
@@ -31,7 +36,5 @@ app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(sequelizeErrorHandler);
 app.use(errorHandler);
-
-
 
 module.exports = { app };
