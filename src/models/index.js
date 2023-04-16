@@ -24,6 +24,10 @@ const {
     PlatilloPorPedido,
     platillosPorPedidoSchema,
 } = require("./platillosPorPedido");
+const {
+    PlatilloPorUsuario,
+    platillosPorUsuarioSchema,
+} = require("./platillosPorUsuario");
 const { Usuario, usuarioSchema } = require("./usuario");
 
 function setupModels(sequelize) {
@@ -34,6 +38,10 @@ function setupModels(sequelize) {
     PlatilloPorPedido.init(
         platillosPorPedidoSchema,
         PlatilloPorPedido.config(sequelize)
+    );
+    PlatilloPorUsuario.init(
+        platillosPorUsuarioSchema,
+        PlatilloPorUsuario.config(sequelize)
     );
     Local.init(localSchema, Local.config(sequelize));
     Categoria.init(categoriaSchema, Categoria.config(sequelize));
@@ -61,6 +69,7 @@ function setupModels(sequelize) {
     Pedido.associate(sequelize.models);
     Platillo.associate(sequelize.models);
     PlatilloPorPedido.associate(sequelize.models);
+    PlatilloPorUsuario.associate(sequelize.models);
     Local.associate(sequelize.models);
     Categoria.associate(sequelize.models);
     CategoriasPorPlatillo.associate(sequelize.models);
