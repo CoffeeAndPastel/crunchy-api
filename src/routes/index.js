@@ -1,4 +1,5 @@
 const express = require("express");
+const { categoriaRoute, categoriaRouter } = require("./categoriaRoute");
 const { etiquetaRoute, etiquetaRouter } = require("./etiquetaRoute");
 const { ingredienteRoute, ingredienteRouter } = require("./ingredienteRoute");
 const { localRoute, localRouter } = require("./localRoute");
@@ -24,5 +25,6 @@ router.use(localRoute, localRouter);
 router.use(etiquetaRoute, etiquetaRouter);
 router.use(platilloRoute, platilloRouter);
 router.use(ingredienteRoute, ingredienteRouter);
+router.use(categoriaRoute, categoriaRouter);
 
 module.exports = { route, router };
