@@ -63,6 +63,7 @@ usuarioRouter.post(
 
 usuarioRouter.patch(
     "/:id",
+    validatorHandler(getUsuarioSchema, "params"),
     validatorHandler(updateUsuarioSchema),
     async (req, res, next) => {
         try {

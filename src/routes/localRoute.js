@@ -64,6 +64,7 @@ localRouter.post(
 localRouter.patch(
     "/:id",
     validatorHandler(updateLocalSchema),
+    validatorHandler(getLocalSchema, "params"),
     async (req, res, next) => {
         try {
             const { id } = req.params;
