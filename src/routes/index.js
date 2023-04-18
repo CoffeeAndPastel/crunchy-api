@@ -3,6 +3,7 @@ const { categoriaRoute, categoriaRouter } = require("./categoriaRoute");
 const { etiquetaRoute, etiquetaRouter } = require("./etiquetaRoute");
 const { ingredienteRoute, ingredienteRouter } = require("./ingredienteRoute");
 const { localRoute, localRouter } = require("./localRoute");
+const { pedidoRoute, pedidoRouter } = require("./pedidoRoute");
 const { platilloRoute, platilloRouter } = require("./platilloRoute");
 const { usuarioRoute, usuarioRouter } = require("./usuarioRoute");
 
@@ -26,5 +27,6 @@ router.use(etiquetaRoute, etiquetaRouter);
 router.use(platilloRoute, platilloRouter);
 router.use(ingredienteRoute, ingredienteRouter);
 router.use(categoriaRoute, categoriaRouter);
+router.use(pedidoRoute, pedidoRouter);
 
 module.exports = { route, router };
