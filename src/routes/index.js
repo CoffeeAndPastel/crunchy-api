@@ -1,4 +1,5 @@
 const express = require("express");
+const { localRoute, localRouter } = require("./localRoute");
 const { usuarioRoute, usuarioRouter } = require("./usuarioRoute");
 
 const route = "/api/v1";
@@ -16,5 +17,6 @@ router.get("/", async (req, res, next) => {
 });
 
 router.use(usuarioRoute, usuarioRouter);
+router.use(localRoute, localRouter);
 
 module.exports = { route, router };
