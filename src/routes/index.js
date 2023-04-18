@@ -1,4 +1,5 @@
 const express = require("express");
+const { etiquetaRoute, etiquetaRouter } = require("./etiquetaRoute");
 const { localRoute, localRouter } = require("./localRoute");
 const { usuarioRoute, usuarioRouter } = require("./usuarioRoute");
 
@@ -18,5 +19,6 @@ router.get("/", async (req, res, next) => {
 
 router.use(usuarioRoute, usuarioRouter);
 router.use(localRoute, localRouter);
+router.use(etiquetaRoute, etiquetaRouter);
 
 module.exports = { route, router };
