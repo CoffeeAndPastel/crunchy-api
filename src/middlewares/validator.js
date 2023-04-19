@@ -13,8 +13,6 @@ function validatorHandler(schema, property = "body") {
             return;
         }
 
-        // Replace the original data with the validated object.
-        req[property] = value;
         next();
     };
 }
