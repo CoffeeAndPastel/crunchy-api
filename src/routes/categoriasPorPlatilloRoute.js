@@ -11,10 +11,10 @@ const {
 } = require("../schemas/categoriasPorPlatilloSchema");
 
 const categoriasPorPlatilloRoute = "/:platilloId/categorias";
-const categoriasPorPlatilloRouter = express.Router();
+const categoriasPorPlatilloRouter = express.Router({ mergeParams: true });
 
 categoriasPorPlatilloRouter.get(
-    `${categoriasPorPlatilloRoute}/`,
+    `/`,
     validatorHandler(getCategoriasPorPlatilloSchema, "params"),
     async (req, res, next) => {
         try {
@@ -31,7 +31,7 @@ categoriasPorPlatilloRouter.get(
 );
 
 categoriasPorPlatilloRouter.post(
-    `${categoriasPorPlatilloRoute}/`,
+    `/`,
     validatorHandler(getCategoriasPorPlatilloSchema, "params"),
     validatorHandler(createCategoriasPorPlatilloSchema),
     async (req, res, next) => {
@@ -52,7 +52,7 @@ categoriasPorPlatilloRouter.post(
 );
 
 categoriasPorPlatilloRouter.delete(
-    `${categoriasPorPlatilloRoute}/:categoriaId`,
+    `/:categoriaId`,
     validatorHandler(getCategoriasPorPlatilloSchema, "params"),
     async (req, res, next) => {
         try {
@@ -65,4 +65,4 @@ categoriasPorPlatilloRouter.delete(
     }
 );
 
-module.exports = { categoriasPorPlatilloRouter };
+module.exports = { categoriasPorPlatilloRoute, categoriasPorPlatilloRouter };

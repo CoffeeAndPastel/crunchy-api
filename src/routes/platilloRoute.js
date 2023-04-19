@@ -97,6 +97,6 @@ platilloRouter.delete(
     }
 );
 
-platilloRouter.use(categoriasPorPlatilloRouter);
+platilloRouter.use(categoriasPorPlatilloRoute, categoriasPorPlatilloRouter);
 
 module.exports = { platilloRoute, platilloRouter };
