@@ -21,8 +21,8 @@ const pedidoSchema = {
         onDelete: "SET NULL",
     },
     state: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.ENUM("ordenando", "enviado", "entregado"),
+        defaultValue: "ordenando",
     },
     address: {
         type: DataTypes.STRING,
