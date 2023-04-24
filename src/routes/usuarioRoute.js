@@ -16,6 +16,10 @@ const {
     ingredientesPorUsuarioRoute,
     ingredientesPorUsuarioRouter,
 } = require("./ingredientesPorUsuarioRoute");
+const {
+    platillosPorUsuarioRoute,
+    platillosPorUsuarioRouter,
+} = require("./platillosPorUsuarioRoute");
 
 const usuarioRoute = "/usuarios";
 const usuarioRouter = express.Router();
@@ -98,5 +102,6 @@ usuarioRouter.delete(
 );
 
 usuarioRouter.use(ingredientesPorUsuarioRoute, ingredientesPorUsuarioRouter);
+usuarioRouter.use(platillosPorUsuarioRoute, platillosPorUsuarioRouter);
 
 module.exports = { usuarioRoute, usuarioRouter };
