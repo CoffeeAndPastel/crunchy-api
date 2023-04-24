@@ -20,6 +20,10 @@ const {
     etiquetasPorPlatilloRoute,
     etiquetasPorPlatilloRouter,
 } = require("./etiquetasPorPlatilloRoute");
+const {
+    ingredientesPorPlatilloRoute,
+    ingredientesPorPlatilloRouter,
+} = require("./ingredientesPorPlatilloRoute");
 
 const platilloRoute = "/platillos";
 const platilloRouter = express.Router();
@@ -103,5 +107,6 @@ platilloRouter.delete(
 
 platilloRouter.use(categoriasPorPlatilloRoute, categoriasPorPlatilloRouter);
 platilloRouter.use(etiquetasPorPlatilloRoute, etiquetasPorPlatilloRouter);
+platilloRouter.use(ingredientesPorPlatilloRoute, ingredientesPorPlatilloRouter);
 
 module.exports = { platilloRoute, platilloRouter };
