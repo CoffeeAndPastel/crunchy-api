@@ -19,7 +19,7 @@ async function getIngredienteById(id) {
                     include: ["platillo"],
                 },
                 {
-                    association: "ingredientePorUsuario",
+                    association: "ingredientesPorUsuario",
                     include: ["usuario"],
                 },
             ],

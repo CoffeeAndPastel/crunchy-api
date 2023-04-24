@@ -12,6 +12,10 @@ const {
     updateUsuario,
     deleteUsuario,
 } = require("../controllers/usuarioController");
+const {
+    ingredientesPorUsuarioRoute,
+    ingredientesPorUsuarioRouter,
+} = require("./ingredientesPorUsuarioRoute");
 
 const usuarioRoute = "/usuarios";
 const usuarioRouter = express.Router();
@@ -92,5 +96,7 @@ usuarioRouter.delete(
         }
     }
 );
+
+usuarioRouter.use(ingredientesPorUsuarioRoute, ingredientesPorUsuarioRouter);
 
 module.exports = { usuarioRoute, usuarioRouter };

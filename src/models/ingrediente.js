@@ -20,8 +20,8 @@ class Ingrediente extends Model {
             as: "ingredientesPorPlatillo",
             foreignKey: "ingredienteId",
         });
-        this.hasMany(models.IngredientePorUsuario, {
-            as: "ingredientePorUsuario",
+        this.hasMany(models.IngredientesPorUsuario, {
+            as: "ingredientesPorUsuario",
             foreignKey: "ingredienteId",
         });
     }

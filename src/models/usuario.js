@@ -47,7 +47,7 @@ class Usuario extends Model {
             as: "pedidos",
             foreignKey: "usuario_id",
         });
-        this.hasMany(models.IngredientePorUsuario, {
+        this.hasMany(models.IngredientesPorUsuario, {
             as: "ingredientes",
             foreignKey: "usuarioId",
         });

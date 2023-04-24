@@ -10,9 +10,9 @@ const {
 } = require("./etiquetasPorPlatillo");
 const { Ingrediente, ingredienteSchema } = require("./ingrediente");
 const {
-    IngredientePorUsuario,
-    ingredientePorUsuarioSchema,
-} = require("./ingredientePorUsuario");
+    IngredientesPorUsuario,
+    ingredientesPorUsuarioSchema,
+} = require("./ingredientesPorUsuario");
 const {
     IngredientesPorPlatillo,
     ingredientesPorPlatilloSchema,
@@ -59,9 +59,9 @@ function setupModels(sequelize) {
         ingredientesPorPlatilloSchema,
         IngredientesPorPlatillo.config(sequelize)
     );
-    IngredientePorUsuario.init(
-        ingredientePorUsuarioSchema,
-        IngredientePorUsuario.config(sequelize)
+    IngredientesPorUsuario.init(
+        ingredientesPorUsuarioSchema,
+        IngredientesPorUsuario.config(sequelize)
     );
 
     //Associates
@@ -77,7 +77,7 @@ function setupModels(sequelize) {
     EtiquetasPorPlatillo.associate(sequelize.models);
     Ingrediente.associate(sequelize.models);
     IngredientesPorPlatillo.associate(sequelize.models);
-    IngredientePorUsuario.associate(sequelize.models);
+    IngredientesPorUsuario.associate(sequelize.models);
 }
 
 module.exports = { setupModels };
