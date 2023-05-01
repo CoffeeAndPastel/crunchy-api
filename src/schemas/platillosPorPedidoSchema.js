@@ -10,13 +10,12 @@ const getPlatillosPorPedidoSchema = Joi.object({
 });
 
 const createPlatillosPorPedidoSchema = Joi.object({
-    pedidoId: pedidoId.required(),
     platilloId: platilloId.required(),
-    amount: amount.required(),
+    amount,
 });
 
 const updatePlatillosPorPedidoSchema = Joi.object({
-    amount,
+    amount: amount.required(),
 });
 
 module.exports = {

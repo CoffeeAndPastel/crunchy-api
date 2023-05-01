@@ -12,6 +12,9 @@ const photoUrl = Joi.string().trim().uri().max(255);
 const getUsuarioSchema = Joi.object({
     id: id.required(),
 });
+const getPedidosPorUsuarioSchema = Joi.object({
+    usuarioId: id.required(),
+});
 
 const createUsuarioSchema = Joi.object({
     name: name.required(),
@@ -33,4 +36,9 @@ const updateUsuarioSchema = Joi.object({
     photoUrl,
 });
 
-module.exports = { getUsuarioSchema, createUsuarioSchema, updateUsuarioSchema };
+module.exports = {
+    getUsuarioSchema,
+    getPedidosPorUsuarioSchema,
+    createUsuarioSchema,
+    updateUsuarioSchema,
+};

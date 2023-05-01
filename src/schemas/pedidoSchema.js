@@ -12,14 +12,12 @@ const getPedidoSchema = Joi.object({
 
 const createPedidoSchema = Joi.object({
     usuarioId: usuarioId.required(),
-    address: address.required(),
-    total: total.required(),
+    address,
 });
 
 const updatePedidoSchema = Joi.object({
     state,
     address,
-    total,
 });
 
 module.exports = {

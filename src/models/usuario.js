@@ -45,7 +45,7 @@ class Usuario extends Model {
     static associate(models) {
         this.hasMany(models.Pedido, {
             as: "pedidos",
-            foreignKey: "usuario_id",
+            foreignKey: "usuarioId",
         });
         this.hasMany(models.IngredientesPorUsuario, {
             as: "ingredientes",

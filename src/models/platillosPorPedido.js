@@ -8,7 +8,7 @@ const platillosPorPedidoSchema = {
     pedidoId: {
         field: "pedido_id",
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {
             model: PEDIDO_TABLE,
             key: "id",
@@ -19,7 +19,6 @@ const platillosPorPedidoSchema = {
     platilloId: {
         field: "platillo_id",
         type: DataTypes.INTEGER,
-        primaryKey: true,
         allowNull: false,
         references: {
             model: PLATILLO_TABLE,
@@ -30,14 +29,18 @@ const platillosPorPedidoSchema = {
     },
     amount: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 1,
     },
 };
 
 class PlatilloPorPedido extends Model {
     static associate(models) {
-        this.belongsTo(models.Pedido, { as: "pedido" });
-        this.belongsTo(models.Platillo, { as: "platillo" });
+        this.belongsTo(models.Pedido, { as: "pedido", foreignKey: "pedidoId" });
+        this.belongsTo(models.Platillo, {
+            as: "platillo",
+            foreignKey: "platilloId",
+        });
     }
 
     static config(sequelize) {

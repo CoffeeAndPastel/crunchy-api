@@ -12,7 +12,7 @@ const pedidoSchema = {
     usuarioId: {
         field: "usuario_id",
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {
             model: USUARIO_TABLE,
             key: "id",
@@ -26,11 +26,8 @@ const pedidoSchema = {
     },
     address: {
         type: DataTypes.STRING,
-        allowNull: false,
-    },
-    total: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: "",
     },
 };
 
@@ -39,7 +36,7 @@ class Pedido extends Model {
         this.belongsTo(models.Usuario, { as: "usuario" });
         this.hasMany(models.PlatilloPorPedido, {
             as: "platillos",
-            foreignKey: "pedido_id",
+            foreignKey: "pedidoId",
         });
     }
 
