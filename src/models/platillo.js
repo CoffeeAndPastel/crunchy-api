@@ -42,15 +42,15 @@ class Platillo extends Model {
             foreignKey: "platilloId",
         });
         this.hasMany(models.CategoriasPorPlatillo, {
-            as: "categoriasPorPlatillo",
+            as: "categorias",
             foreignKey: "platilloId",
         });
         this.hasMany(models.EtiquetasPorPlatillo, {
-            as: "etiquetasPorPlatillo",
+            as: "etiquetas",
             foreignKey: "platilloId",
         });
         this.hasMany(models.IngredientesPorPlatillo, {
-            as: "ingredientesPorPlatillo",
+            as: "ingredientes",
             foreignKey: "platilloId",
         });
     }
