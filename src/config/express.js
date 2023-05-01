@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const {
     logErrors,
     boomErrorHandler,
@@ -10,6 +11,7 @@ const app = express();
 
 //Middlewares al inicio
 app.use(express.json());
+app.use(cors());
 
 //Routes
 app.get("/", (req, res) => {
