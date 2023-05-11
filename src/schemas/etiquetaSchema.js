@@ -11,6 +11,8 @@ const createEtiquetaSchema = Joi.object({
     name: name.required(),
 });
 
+const createEtiquetasSchema = Joi.array().items(createEtiquetaSchema);
+
 const updateEtiquetaSchema = Joi.object({
     name,
 });
@@ -18,5 +20,6 @@ const updateEtiquetaSchema = Joi.object({
 module.exports = {
     getEtiquetaSchema,
     createEtiquetaSchema,
+    createEtiquetasSchema,
     updateEtiquetaSchema,
 };

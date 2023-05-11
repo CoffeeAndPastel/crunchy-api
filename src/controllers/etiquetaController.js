@@ -32,6 +32,15 @@ async function createEtiqueta(etiqueta) {
     }
 }
 
+async function createEtiquetas(etiquetas) {
+    try {
+        const createdEtiquetas = await Etiqueta.bulkCreate(etiquetas);
+        return createdEtiquetas;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function updateEtiqueta(id, etiqueta) {
     try {
         const [rowsUpdated, [updatedEtiqueta]] = await Etiqueta.update(
@@ -62,6 +71,7 @@ module.exports = {
     getAllEtiquetas,
     getEtiquetaById,
     createEtiqueta,
+    createEtiquetas,
     updateEtiqueta,
     deleteEtiqueta,
 };
