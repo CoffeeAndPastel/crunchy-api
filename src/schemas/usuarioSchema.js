@@ -26,6 +26,8 @@ const createUsuarioSchema = Joi.object({
     photoUrl: photoUrl.required(),
 });
 
+const createUsuariosSchema = Joi.array().items(createUsuarioSchema);
+
 const updateUsuarioSchema = Joi.object({
     name,
     lastName,
@@ -40,5 +42,6 @@ module.exports = {
     getUsuarioSchema,
     getPedidosPorUsuarioSchema,
     createUsuarioSchema,
+    createUsuariosSchema,
     updateUsuarioSchema,
 };

@@ -89,6 +89,16 @@ async function createUsuario(usuario) {
     }
 }
 
+async function createUsuarios(usuarios) {
+    try {
+        const createdUsuarios = await Usuario.bulkCreate(usuarios);
+        return createdUsuarios;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 async function updateUsuario(id, usuario) {
     try {
         const [rowsUpdated, [updatedUsuario]] = await Usuario.update(usuario, {
@@ -116,6 +126,7 @@ module.exports = {
     getAllUsuarios,
     getUsuarioById,
     createUsuario,
+    createUsuarios,
     updateUsuario,
     deleteUsuario,
 };

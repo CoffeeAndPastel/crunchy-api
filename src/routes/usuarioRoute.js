@@ -4,6 +4,7 @@ const {
     getUsuarioSchema,
     createUsuarioSchema,
     updateUsuarioSchema,
+    createUsuariosSchema,
 } = require("../schemas/usuarioSchema");
 const {
     getAllUsuarios,
@@ -11,6 +12,7 @@ const {
     createUsuario,
     updateUsuario,
     deleteUsuario,
+    createUsuarios,
 } = require("../controllers/usuarioController");
 const {
     ingredientesPorUsuarioRoute,
@@ -66,6 +68,24 @@ usuarioRouter.post(
             res.status(201).json({
                 message: "Usuario creado correctamente",
                 body: usuario,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+usuarioRouter.post(
+    "/multiple",
+    validatorHandler(createUsuariosSchema),
+    async (req, res, next) => {
+        try {
+            const usuarios = req.body;
+            const createdUsuarios = await createUsuarios(usuarios);
+            res.status(201).json({
+                message: "Usuario creado correctamente",
+
+                body: createdUsuarios,
             });
         } catch (error) {
             next(error);
