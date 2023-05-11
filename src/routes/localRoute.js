@@ -4,6 +4,7 @@ const {
     getLocalSchema,
     createLocalSchema,
     updateLocalSchema,
+    createLocalesSchema,
 } = require("../schemas/localSchema");
 const {
     getAllLocales,
@@ -11,6 +12,7 @@ const {
     createLocal,
     updateLocal,
     deleteLocal,
+    createLocales,
 } = require("../controllers/localController");
 
 const localRoute = "/locales";
@@ -54,6 +56,22 @@ localRouter.post(
             res.status(201).json({
                 message: "Local creado correctamente",
                 body: local,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+localRouter.post(
+    "/multiple",
+    validatorHandler(createLocalesSchema),
+    async (req, res, next) => {
+        try {
+            const locales = await createLocales(req.body);
+            res.status(201).json({
+                message: "Local creado correctamente",
+                body: locales,
             });
         } catch (error) {
             next(error);

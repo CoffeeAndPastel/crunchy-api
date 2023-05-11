@@ -19,6 +19,8 @@ const createLocalSchema = Joi.object({
     photoUrl: photoUrl.required(),
 });
 
+const createLocalesSchema = Joi.array().items(createLocalSchema);
+
 const updateLocalSchema = Joi.object({
     name,
     description,
@@ -27,4 +29,9 @@ const updateLocalSchema = Joi.object({
     photoUrl,
 });
 
-module.exports = { getLocalSchema, createLocalSchema, updateLocalSchema };
+module.exports = {
+    getLocalSchema,
+    createLocalSchema,
+    createLocalesSchema,
+    updateLocalSchema,
+};

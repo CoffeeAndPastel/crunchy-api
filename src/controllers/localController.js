@@ -30,6 +30,15 @@ async function createLocal(local) {
     }
 }
 
+async function createLocales(locales) {
+    try {
+        const createdLocales = await Local.bulkCreate(locales);
+        return createdLocales;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function updateLocal(id, local) {
     try {
         const [rowsUpdated, [updatedLocal]] = await Local.update(local, {
@@ -57,6 +66,7 @@ module.exports = {
     getAllLocales,
     getLocalById,
     createLocal,
+    createLocales,
     updateLocal,
     deleteLocal,
 };
