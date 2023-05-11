@@ -3,6 +3,7 @@ const { validatorHandler } = require("../middlewares/validator");
 const {
     getIngredienteSchema,
     createIngredienteSchema,
+    createIngredientesSchema,
     updateIngredienteSchema,
 } = require("../schemas/ingredienteSchema");
 const {
@@ -11,6 +12,7 @@ const {
     createIngrediente,
     updateIngrediente,
     deleteIngrediente,
+    createIngredientes,
 } = require("../controllers/ingredienteController");
 
 const ingredienteRoute = "/ingredientes";
@@ -54,6 +56,22 @@ ingredienteRouter.post(
             res.status(201).json({
                 message: "Ingrediente creado correctamente",
                 body: ingrediente,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+ingredienteRouter.post(
+    "/multiple",
+    validatorHandler(createIngredientesSchema),
+    async (req, res, next) => {
+        try {
+            const ingredientes = await createIngredientes(req.body);
+            res.status(201).json({
+                message: "Ingredientes creados correctamente",
+                body: ingredientes,
             });
         } catch (error) {
             next(error);

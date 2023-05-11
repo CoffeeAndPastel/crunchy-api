@@ -11,6 +11,8 @@ const createIngredienteSchema = Joi.object({
     name: name.required(),
 });
 
+const createIngredientesSchema = Joi.array().items(createIngredienteSchema);
+
 const updateIngredienteSchema = Joi.object({
     name,
 });
@@ -18,5 +20,6 @@ const updateIngredienteSchema = Joi.object({
 module.exports = {
     getIngredienteSchema,
     createIngredienteSchema,
+    createIngredientesSchema,
     updateIngredienteSchema,
 };

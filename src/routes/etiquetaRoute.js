@@ -4,6 +4,7 @@ const {
     getEtiquetaSchema,
     createEtiquetaSchema,
     updateEtiquetaSchema,
+    createEtiquetasSchema,
 } = require("../schemas/etiquetaSchema");
 const {
     getAllEtiquetas,
@@ -11,6 +12,7 @@ const {
     createEtiqueta,
     updateEtiqueta,
     deleteEtiqueta,
+    createEtiquetas,
 } = require("../controllers/etiquetaController");
 
 const etiquetaRoute = "/etiquetas";
@@ -54,6 +56,22 @@ etiquetaRouter.post(
             res.status(201).json({
                 message: "Etiqueta creada correctamente",
                 body: etiqueta,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+etiquetaRouter.post(
+    "/multiple",
+    validatorHandler(createEtiquetasSchema),
+    async (req, res, next) => {
+        try {
+            const etiquetas = await createEtiquetas(req.body);
+            res.status(201).json({
+                message: "Etiquetas creadas correctamente",
+                body: etiquetas,
             });
         } catch (error) {
             next(error);
