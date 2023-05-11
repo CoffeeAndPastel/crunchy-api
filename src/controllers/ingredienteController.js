@@ -41,6 +41,15 @@ async function createIngrediente(ingrediente) {
     }
 }
 
+async function createIngredientes(ingredientes) {
+    try {
+        const createdIngredientes = await Ingrediente.bulkCreate(ingredientes);
+        return createdIngredientes;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function updateIngrediente(id, ingrediente) {
     try {
         const [rowsUpdated, [updatedIngrediente]] = await Ingrediente.update(
@@ -71,6 +80,7 @@ module.exports = {
     getAllIngredientes,
     getIngredienteById,
     createIngrediente,
+    createIngredientes,
     updateIngrediente,
     deleteIngrediente,
 };

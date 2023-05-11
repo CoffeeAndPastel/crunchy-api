@@ -4,6 +4,7 @@ const {
     getCategoriaSchema,
     createCategoriaSchema,
     updateCategoriaSchema,
+    createCategoriasSchema,
 } = require("../schemas/categoriaSchema");
 const {
     getAllCategorias,
@@ -11,6 +12,7 @@ const {
     createCategoria,
     updateCategoria,
     deleteCategoria,
+    createCategorias,
 } = require("../controllers/categoriaController");
 
 const categoriaRoute = "/categorias";
@@ -51,6 +53,22 @@ categoriaRouter.post(
     async (req, res, next) => {
         try {
             const categoria = await createCategoria(req.body);
+            res.status(201).json({
+                message: "Categoría creada correctamente",
+                body: categoria,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+categoriaRouter.post(
+    "/multiple",
+    validatorHandler(createCategoriasSchema),
+    async (req, res, next) => {
+        try {
+            const categoria = await createCategorias(req.body);
             res.status(201).json({
                 message: "Categoría creada correctamente",
                 body: categoria,

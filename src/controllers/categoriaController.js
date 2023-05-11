@@ -40,6 +40,15 @@ async function createCategoria(categoria) {
     }
 }
 
+async function createCategorias(categorias) {
+    try {
+        const createdCategorias = await Categoria.bulkCreate(categorias);
+        return createdCategorias;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function updateCategoria(id, categoria) {
     try {
         const [rowsUpdated, [updatedCategoria]] = await Categoria.update(
@@ -70,6 +79,7 @@ module.exports = {
     getAllCategorias,
     getCategoriaById,
     createCategoria,
+    createCategorias,
     updateCategoria,
     deleteCategoria,
 };

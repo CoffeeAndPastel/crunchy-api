@@ -11,6 +11,8 @@ const createCategoriaSchema = Joi.object({
     name,
 });
 
+const createCategoriasSchema = Joi.array().items(createCategoriaSchema);
+
 const updateCategoriaSchema = Joi.object({
     name,
 });
@@ -18,5 +20,6 @@ const updateCategoriaSchema = Joi.object({
 module.exports = {
     getCategoriaSchema,
     createCategoriaSchema,
+    createCategoriasSchema,
     updateCategoriaSchema,
 };
