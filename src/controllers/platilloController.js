@@ -93,6 +93,15 @@ async function createPlatillo(platillo) {
     }
 }
 
+async function createPlatillos(platillos) {
+    try {
+        const createdPlatillos = await Platillo.bulkCreate(platillos);
+        return createdPlatillos;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function updatePlatillo(id, platillo) {
     try {
         const [rowsUpdated, [updatedPlatillo]] = await Platillo.update(
@@ -123,6 +132,7 @@ module.exports = {
     getAllPlatillos,
     getPlatilloById,
     createPlatillo,
+    createPlatillos,
     updatePlatillo,
     deletePlatillo,
 };

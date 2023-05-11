@@ -19,6 +19,8 @@ const createPlatilloSchema = Joi.object({
     price: price.required(),
 });
 
+const createPlatillosSchema = Joi.array().items(createPlatilloSchema);
+
 const updatePlatilloSchema = Joi.object({
     name,
     description,
@@ -30,5 +32,6 @@ const updatePlatilloSchema = Joi.object({
 module.exports = {
     getPlatilloSchema,
     createPlatilloSchema,
+    createPlatillosSchema,
     updatePlatilloSchema,
 };

@@ -80,12 +80,10 @@ usuarioRouter.post(
     validatorHandler(createUsuariosSchema),
     async (req, res, next) => {
         try {
-            const usuarios = req.body;
-            const createdUsuarios = await createUsuarios(usuarios);
+            const usuarios = await createUsuarios(req.body);
             res.status(201).json({
                 message: "Usuario creado correctamente",
-
-                body: createdUsuarios,
+                body: usuarios,
             });
         } catch (error) {
             next(error);

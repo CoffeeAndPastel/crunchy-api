@@ -4,6 +4,7 @@ const {
     getPlatilloSchema,
     createPlatilloSchema,
     updatePlatilloSchema,
+    createPlatillosSchema,
 } = require("../schemas/platilloSchema");
 const {
     getAllPlatillos,
@@ -11,6 +12,7 @@ const {
     createPlatillo,
     updatePlatillo,
     deletePlatillo,
+    createPlatillos,
 } = require("../controllers/platilloController");
 const {
     categoriasPorPlatilloRoute,
@@ -66,6 +68,22 @@ platilloRouter.post(
             res.status(201).json({
                 message: "Platillo creado correctamente",
                 body: platillo,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+platilloRouter.post(
+    "/multiple",
+    validatorHandler(createPlatillosSchema),
+    async (req, res, next) => {
+        try {
+            const platillos = await createPlatillos(req.body);
+            res.status(201).json({
+                message: "Platillos creados correctamente",
+                body: platillos,
             });
         } catch (error) {
             next(error);
