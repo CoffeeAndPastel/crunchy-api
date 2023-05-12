@@ -11,7 +11,7 @@ const { Platillo } = require("../models/platillo");
 
 async function getAllPlatillos() {
     try {
-        const platillos = await Platillo.findAll();
+        const platillos = await Platillo.findAll({ include: ["local"] });
         return platillos;
     } catch (error) {
         throw error;
