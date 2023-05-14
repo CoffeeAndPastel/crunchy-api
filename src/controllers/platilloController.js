@@ -1,4 +1,6 @@
 const boom = require("@hapi/boom");
+const { Op } = require("sequelize");
+
 const { Categoria } = require("../models/categoria");
 const { CategoriasPorPlatillo } = require("../models/categoriasPorPlatillo");
 const { Etiqueta } = require("../models/etiqueta");
@@ -84,6 +86,82 @@ async function getPlatilloById(id) {
     }
 }
 
+async function searchPlatillos(query) {
+    try {
+        const { q, ingredientes, categorias, etiquetas } = query;
+        const where = {
+            [Op.or]: [
+                { name: { [Op.iLike]: `%${q}%` } },
+                { description: { [Op.iLike]: `%${q}%` } },
+            ],
+        };
+
+        if (ingredientes) {
+            const ingredientesArray = ingredientes.split(",");
+            where["$ingredientes.ingrediente.name$"] = {
+                [Op.in]: ingredientesArray,
+            };
+        }
+
+        if (categorias) {
+            const ingredientesArray = categorias.split(",");
+            where["$categorias.categoria.name$"] = {
+                [Op.in]: ingredientesArray,
+            };
+        }
+
+        if (etiquetas) {
+            const etiquetasArray = etiquetas.split(",");
+            where["$etiquetas.etiqueta.name$"] = {
+                [Op.in]: etiquetasArray,
+            };
+        }
+
+        const platillos = await Platillo.findAll({
+            where,
+            include: [
+                "local",
+                {
+                    model: CategoriasPorPlatillo,
+                    as: "categorias",
+                    include: {
+                        model: Categoria,
+                        as: "categoria",
+                    },
+                },
+                {
+                    model: EtiquetasPorPlatillo,
+                    as: "etiquetas",
+                    include: {
+                        model: Etiqueta,
+                        as: "etiqueta",
+                    },
+                },
+                {
+                    model: IngredientesPorPlatillo,
+                    as: "ingredientes",
+                    include: {
+                        model: Ingrediente,
+                        as: "ingrediente",
+                    },
+                },
+            ],
+        });
+
+        // return platillos.map((platillo) => formatPlatillo(platillo));
+        return platillos.map((platillo) => {
+            return {
+                id: platillo.id,
+                name: platillo.name,
+                price: platillo.price,
+                local: platillo.local.name,
+            };
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function createPlatillo(platillo) {
     try {
         const newPlatillo = await Platillo.create(platillo);
@@ -131,6 +209,7 @@ async function deletePlatillo(id) {
 module.exports = {
     getAllPlatillos,
     getPlatilloById,
+    searchPlatillos,
     createPlatillo,
     createPlatillos,
     updatePlatillo,

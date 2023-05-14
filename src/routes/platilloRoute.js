@@ -13,6 +13,7 @@ const {
     updatePlatillo,
     deletePlatillo,
     createPlatillos,
+    searchPlatillos,
 } = require("../controllers/platilloController");
 const {
     categoriasPorPlatilloRoute,
@@ -33,6 +34,18 @@ const platilloRouter = express.Router();
 platilloRouter.get("/", async (req, res, next) => {
     try {
         const platillos = await getAllPlatillos();
+        res.json({
+            message: "Platillos obtenidos correctamente",
+            body: platillos,
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+platilloRouter.get("/search", async (req, res, next) => {
+    try {
+        const platillos = await searchPlatillos(req.query);
         res.json({
             message: "Platillos obtenidos correctamente",
             body: platillos,
