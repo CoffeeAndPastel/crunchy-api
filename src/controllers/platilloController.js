@@ -86,6 +86,18 @@ async function getPlatilloById(id) {
     }
 }
 
+async function getPlatillosByIds(ids) {
+    try {
+        const platillos = await Platillo.findAll({
+            where: { id: ids },
+            include: ["local"],
+        });
+        return platillos;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function searchPlatillos(query) {
     try {
         const { q, ingredientes, categorias, etiquetas } = query;
@@ -209,6 +221,7 @@ async function deletePlatillo(id) {
 module.exports = {
     getAllPlatillos,
     getPlatilloById,
+    getPlatillosByIds,
     searchPlatillos,
     createPlatillo,
     createPlatillos,

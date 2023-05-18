@@ -13,6 +13,7 @@ const {
     updateUsuario,
     deleteUsuario,
     createUsuarios,
+    getRecommendations,
 } = require("../controllers/usuarioController");
 const {
     ingredientesPorUsuarioRoute,
@@ -52,6 +53,23 @@ usuarioRouter.get(
             res.json({
                 message: "Usuario obtenido correctamente",
                 body: usuario,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+usuarioRouter.get(
+    "/:id/recommendations",
+    validatorHandler(getUsuarioSchema, "params"),
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const platillos = await getRecommendations(id);
+            res.json({
+                message: "Platillos obtenidos correctamente",
+                body: platillos,
             });
         } catch (error) {
             next(error);

@@ -4,6 +4,8 @@ const { IngredientesPorUsuario } = require("../models/ingredientesPorUsuario");
 const { Ingrediente } = require("../models/ingrediente");
 const { PlatilloPorUsuario } = require("../models/platillosPorUsuario");
 const { Platillo } = require("../models/platillo");
+const { Op } = require("sequelize");
+const { getPlatillosByIds } = require("./platilloController");
 
 async function getAllUsuarios() {
     try {
@@ -70,14 +72,58 @@ async function getUsuarioById(id) {
             }
         });
 
-        formatUsuario.platillos = usuario.platillos.map(
-            (platillo) => platillo.platillo.name
-        );
+        formatUsuario.platillos = usuario.platillos.map((platillo) => ({
+            id: platillo.platillo.id,
+            name: platillo.platillo.name,
+        }));
 
         return formatUsuario;
     } catch (error) {
         throw error;
     }
+}
+
+async function getRecommendations(id) {
+    const usuario = await getUsuarioById(id);
+    const platillos_id = usuario.platillos.map((platillo) => platillo.id);
+    const usuarios_match = await Usuario.findAll({
+        include: {
+            model: PlatilloPorUsuario,
+            as: "platillos",
+            where: {
+                platilloId: {
+                    [Op.in]: platillos_id,
+                },
+            },
+        },
+        where: {
+            id: {
+                [Op.not]: id,
+            },
+        },
+    });
+
+    const usuarios_id = usuarios_match.map((usuario) => usuario.id);
+
+    const usuarios = await Usuario.findAll({
+        where: { id: usuarios_id },
+        include: ["platillos"],
+    });
+
+    const usuarios_platillos_id = [];
+
+    for (const usuario of usuarios) {
+        for (const platillo of usuario.platillos) {
+            if (
+                !usuarios_platillos_id.includes(platillo.platilloId) &&
+                !platillos_id.includes(platillo.platilloId)
+            ) {
+                usuarios_platillos_id.push(platillo.platilloId);
+            }
+        }
+    }
+
+    return await getPlatillosByIds(usuarios_platillos_id);
 }
 
 async function createUsuario(usuario) {
@@ -97,7 +143,6 @@ async function createUsuarios(usuarios) {
         throw error;
     }
 }
-
 
 async function updateUsuario(id, usuario) {
     try {
@@ -125,6 +170,7 @@ async function deleteUsuario(id) {
 module.exports = {
     getAllUsuarios,
     getUsuarioById,
+    getRecommendations,
     createUsuario,
     createUsuarios,
     updateUsuario,
