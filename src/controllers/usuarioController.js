@@ -7,6 +7,47 @@ const { Platillo } = require("../models/platillo");
 const { Op } = require("sequelize");
 const { getPlatillosByIds } = require("./platilloController");
 
+function formatUser(usuario) {
+    const formatUsuario = {
+        id: usuario.id,
+        name: usuario.name,
+        lastName: usuario.lastName,
+        email: usuario.email,
+        phone: usuario.phone,
+        username: usuario.username,
+        password: usuario.password,
+        photoUrl: usuario.photoUrl,
+        createdAt: usuario.createdAt,
+        ingredientes: {
+            muchos: [],
+            pocos: [],
+            nulos: [],
+        },
+    };
+
+    usuario.ingredientes.forEach((ingrediente) => {
+        const ingredientes = formatUsuario.ingredientes;
+        switch (ingrediente.frequency) {
+            case "mucha":
+                ingredientes.muchos.push(ingrediente.ingrediente.name);
+                break;
+            case "poca":
+                ingredientes.pocos.push(ingrediente.ingrediente.name);
+                break;
+            case "nula":
+                ingredientes.nulos.push(ingrediente.ingrediente.name);
+                break;
+        }
+    });
+
+    formatUsuario.platillos = usuario.platillos.map((platillo) => ({
+        id: platillo.platillo.id,
+        name: platillo.platillo.name,
+    }));
+
+    return formatUsuario;
+}
+
 async function getAllUsuarios() {
     try {
         const usuarios = await Usuario.findAll();
@@ -40,44 +81,41 @@ async function getUsuarioById(id) {
         });
         if (!usuario) throw boom.notFound("Usuario no encontrado");
 
-        const formatUsuario = {
-            id: usuario.id,
-            name: usuario.name,
-            lastName: usuario.lastName,
-            email: usuario.email,
-            phone: usuario.phone,
-            username: usuario.username,
-            password: usuario.password,
-            photoUrl: usuario.photoUrl,
-            createdAt: usuario.createdAt,
-            ingredientes: {
-                muchos: [],
-                pocos: [],
-                nulos: [],
-            },
-        };
+        return formatUser(usuario);
+    } catch (error) {
+        throw error;
+    }
+}
 
-        usuario.ingredientes.map((ingrediente) => {
-            const ingredientes = formatUsuario.ingredientes;
-            switch (ingrediente.frequency) {
-                case "mucha":
-                    ingredientes.muchos.push(ingrediente.ingrediente.name);
-                    break;
-                case "poca":
-                    ingredientes.pocos.push(ingrediente.ingrediente.name);
-                    break;
-                case "nula":
-                    ingredientes.nulos.push(ingrediente.ingrediente.name);
-                    break;
-            }
+async function getUsuarioByUsername(username) {
+    try {
+        const usuario = await Usuario.findOne({
+            where: {
+                username,
+            },
+            include: [
+                {
+                    model: IngredientesPorUsuario,
+                    as: "ingredientes",
+                    include: {
+                        model: Ingrediente,
+                        as: "ingrediente",
+                    },
+                },
+                {
+                    model: PlatilloPorUsuario,
+                    as: "platillos",
+                    include: {
+                        model: Platillo,
+                        as: "platillo",
+                    },
+                },
+            ],
         });
 
-        formatUsuario.platillos = usuario.platillos.map((platillo) => ({
-            id: platillo.platillo.id,
-            name: platillo.platillo.name,
-        }));
+        if (!usuario) throw boom.notFound("Usuario no encontrado");
 
-        return formatUsuario;
+        return formatUser(usuario);
     } catch (error) {
         throw error;
     }
@@ -170,6 +208,7 @@ async function deleteUsuario(id) {
 module.exports = {
     getAllUsuarios,
     getUsuarioById,
+    getUsuarioByUsername,
     getRecommendations,
     createUsuario,
     createUsuarios,

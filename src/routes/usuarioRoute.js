@@ -14,6 +14,7 @@ const {
     deleteUsuario,
     createUsuarios,
     getRecommendations,
+    getUsuarioByUsername,
 } = require("../controllers/usuarioController");
 const {
     ingredientesPorUsuarioRoute,
@@ -59,6 +60,19 @@ usuarioRouter.get(
         }
     }
 );
+
+usuarioRouter.get("/u/:username", async (req, res, next) => {
+    try {
+        const { username } = req.params;
+        const usuario = await getUsuarioByUsername(username);
+        res.json({
+            message: "Usuario obtenido correctamente",
+            body: usuario,
+        });
+    } catch (error) {
+        next(error);
+    }
+});
 
 usuarioRouter.get(
     "/:id/recommendations",
