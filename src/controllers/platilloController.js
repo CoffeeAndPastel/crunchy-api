@@ -167,6 +167,7 @@ async function searchPlatillos(query) {
                 name: platillo.name,
                 price: platillo.price,
                 local: platillo.local.name,
+                photoUrl: platillo.photoUrl,
             };
         });
     } catch (error) {
