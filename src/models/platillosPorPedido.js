@@ -14,7 +14,7 @@ const platillosPorPedidoSchema = {
             key: "id",
         },
         onUpdate: "CASCADE",
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
     },
     platilloId: {
         field: "platillo_id",
