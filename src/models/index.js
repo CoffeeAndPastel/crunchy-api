@@ -29,6 +29,10 @@ const {
     platillosPorUsuarioSchema,
 } = require("./platillosPorUsuario");
 const { Usuario, usuarioSchema } = require("./usuario");
+const {
+    PlatillosVistosPorUsuario,
+    platillosVistosPorUsuarioSchema,
+} = require("./platillosVistosPorUsuario");
 
 function setupModels(sequelize) {
     //Init
@@ -42,6 +46,10 @@ function setupModels(sequelize) {
     PlatilloPorUsuario.init(
         platillosPorUsuarioSchema,
         PlatilloPorUsuario.config(sequelize)
+    );
+    PlatillosVistosPorUsuario.init(
+        platillosVistosPorUsuarioSchema,
+        PlatillosVistosPorUsuario.config(sequelize)
     );
     Local.init(localSchema, Local.config(sequelize));
     Categoria.init(categoriaSchema, Categoria.config(sequelize));
@@ -70,6 +78,7 @@ function setupModels(sequelize) {
     Platillo.associate(sequelize.models);
     PlatilloPorPedido.associate(sequelize.models);
     PlatilloPorUsuario.associate(sequelize.models);
+    PlatillosVistosPorUsuario.associate(sequelize.models);
     Local.associate(sequelize.models);
     Categoria.associate(sequelize.models);
     CategoriasPorPlatillo.associate(sequelize.models);

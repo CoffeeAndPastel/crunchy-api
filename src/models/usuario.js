@@ -56,6 +56,10 @@ class Usuario extends Model {
             as: "platillos",
             foreignKey: "usuarioId",
         });
+        this.hasMany(models.PlatillosVistosPorUsuario, {
+            as: "platillosVistos",
+            foreignKey: "usuarioId",
+        });
     }
 
     static config(sequelize) {

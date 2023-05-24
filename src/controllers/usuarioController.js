@@ -6,6 +6,12 @@ const { PlatilloPorUsuario } = require("../models/platillosPorUsuario");
 const { Platillo } = require("../models/platillo");
 const { Op } = require("sequelize");
 const { getPlatillosByIds } = require("./platilloController");
+const {
+    PlatillosVistosPorUsuario,
+} = require("../models/platillosVistosPorUsuario");
+const {
+    getPlatillosVistosPorUsuario,
+} = require("./platillosVistosPorUsuarioController");
 
 function formatUser(usuario) {
     const formatUsuario = {
@@ -122,46 +128,64 @@ async function getUsuarioByUsername(username) {
 }
 
 async function getRecommendations(id) {
-    const usuario = await getUsuarioById(id);
-    const platillos_id = usuario.platillos.map((platillo) => platillo.id);
-    const usuarios_match = await Usuario.findAll({
-        include: {
-            model: PlatilloPorUsuario,
-            as: "platillos",
-            where: {
-                platilloId: {
-                    [Op.in]: platillos_id,
+    try {
+        const usuario = await getUsuarioById(id);
+        const platillos_id = usuario.platillos.map((platillo) => platillo.id);
+        const platillosVistos = await getPlatillosVistosPorUsuario(id);
+
+        const usuarios_match = await Usuario.findAll({
+            include: {
+                model: PlatilloPorUsuario,
+                as: "platillos",
+                where: {
+                    platilloId: {
+                        [Op.in]: platillos_id,
+                    },
                 },
             },
-        },
-        where: {
-            id: {
-                [Op.not]: id,
+            where: {
+                id: {
+                    [Op.not]: id,
+                },
             },
-        },
-    });
+        });
 
-    const usuarios_id = usuarios_match.map((usuario) => usuario.id);
+        const usuarios_id = usuarios_match.map((usuario) => usuario.id);
 
-    const usuarios = await Usuario.findAll({
-        where: { id: usuarios_id },
-        include: ["platillos"],
-    });
+        const usuarios = await Usuario.findAll({
+            where: { id: usuarios_id },
+            include: ["platillos"],
+        });
 
-    const usuarios_platillos_id = [];
+        const usuarios_platillos_id = [];
 
-    for (const usuario of usuarios) {
-        for (const platillo of usuario.platillos) {
-            if (
-                !usuarios_platillos_id.includes(platillo.platilloId) &&
-                !platillos_id.includes(platillo.platilloId)
-            ) {
-                usuarios_platillos_id.push(platillo.platilloId);
+        for (const usuario of usuarios) {
+            for (const platillo of usuario.platillos) {
+                if (
+                    !usuarios_platillos_id.includes(platillo.platilloId) &&
+                    !platillos_id.includes(platillo.platilloId)
+                ) {
+                    usuarios_platillos_id.push(platillo.platilloId);
+                }
             }
         }
-    }
 
-    return await getPlatillosByIds(usuarios_platillos_id);
+        console.log(platillosVistos);
+
+        const re = await getPlatillosByIds(usuarios_platillos_id);
+        const platillosFinal = await Platillo.findAll({
+            include: ["local"],
+            where: {
+                id: {
+                    [Op.notIn]: platillosVistos,
+                },
+            },
+        });
+
+        return re.concat(platillosFinal);
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function createUsuario(usuario) {
