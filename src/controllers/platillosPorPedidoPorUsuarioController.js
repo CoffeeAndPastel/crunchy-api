@@ -34,7 +34,7 @@ async function updatePlatillosPorPedido(pedidoId, platilloId, amount) {
                 where: { platilloId, pedidoId },
             }
         );
-        if (rowsUpdated !== 1) throw boom.notFound("Platillo no encontrada");
+        if (rowsUpdated !== 1) throw boom.notFound("Platillo no encontrado");
 
         return updatePlatillo;
     } catch (error) {

@@ -40,7 +40,7 @@ platillosPorpedidosorUsuarioRouter.post(
 platillosPorpedidosorUsuarioRouter.patch(
     "/:platilloId",
     validatorHandler(getPlatillosPorPedidoSchema, "params"),
-    validatorHandler(updatePlatillosPorPedidoSchema, "params"),
+    validatorHandler(updatePlatillosPorPedidoSchema),
     async (req, res, next) => {
         try {
             const { pedidoId, platilloId } = req.params;
