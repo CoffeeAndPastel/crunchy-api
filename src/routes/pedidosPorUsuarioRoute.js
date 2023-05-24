@@ -11,6 +11,7 @@ const {
     createPedido,
     updatePedido,
     deletePedido,
+    getLastPedido,
 } = require("../controllers/pedidosPorUsuarioController");
 const { getPedidosPorUsuarioSchema } = require("../schemas/usuarioSchema");
 const {
@@ -32,6 +33,23 @@ pedidosPorUsuarioRouter.get(
             res.json({
                 message: "Pedidos obtenidos correctamente",
                 body: pedidos,
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+pedidosPorUsuarioRouter.get(
+    "/last",
+    validatorHandler(getPedidosPorUsuarioSchema, "params"),
+    async (req, res, next) => {
+        try {
+            const { usuarioId } = req.params;
+            const pedido = await getLastPedido(usuarioId);
+            res.json({
+                message: "Pedido obtenido correctamente",
+                body: pedido,
             });
         } catch (error) {
             next(error);

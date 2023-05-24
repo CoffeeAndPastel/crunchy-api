@@ -69,6 +69,33 @@ async function getPedidoById(id) {
     }
 }
 
+async function getLastPedido(usuarioId) {
+    try {
+        const pedido = await Pedido.findOne({
+            where: { usuarioId },
+            order: [["createdAt", "DESC"]], // Ordenar por fecha de creación descendente
+            include: {
+                model: PlatilloPorPedido,
+                as: "platillos",
+                include: {
+                    model: Platillo,
+                    as: "platillo",
+                },
+            },
+        });
+
+        if (!!pedido) {
+            if (pedido.state == "entregado")
+                return await Pedido.create({ usuarioId });
+            else return formatrPedido(pedido);
+        }
+
+        return await Pedido.create({ usuarioId });
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function createPedido(pedido) {
     try {
         const newPedido = await Pedido.create(pedido, {
@@ -106,6 +133,7 @@ async function deletePedido(id) {
 module.exports = {
     getAllPedidos,
     getPedidoById,
+    getLastPedido,
     createPedido,
     updatePedido,
     deletePedido,
