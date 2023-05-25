@@ -180,9 +180,14 @@ async function getRecommendations(id) {
             },
         });
 
-        return platillosFinal.concat(
-            re.filter((x) => !platillosVistos.includes(x.id))
-        );
+        function compararAleatoriamente() {
+            return Math.random() - 0.5;
+        }
+
+        return re
+            .filter((x) => !platillosVistos.includes(x.id))
+            .concat(platillosFinal)
+            .sort(compararAleatoriamente);
     } catch (error) {
         throw error;
     }
