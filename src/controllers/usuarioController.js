@@ -170,19 +170,17 @@ async function getRecommendations(id) {
             }
         }
 
-        console.log(platillosVistos);
-
         const re = await getPlatillosByIds(usuarios_platillos_id);
         const platillosFinal = await Platillo.findAll({
             include: ["local"],
             where: {
                 id: {
-                    [Op.notIn]: platillosVistos,
+                    [Op.notIn]: platillosVistos.concat(re.map((x) => x.id)),
                 },
             },
         });
 
-        return re.concat(platillosFinal);
+        return platillosFinal;
     } catch (error) {
         throw error;
     }
