@@ -180,7 +180,9 @@ async function getRecommendations(id) {
             },
         });
 
-        return platillosFinal;
+        return platillosFinal.concat(
+            re.filter((x) => !platillosVistos.includes(x.id))
+        );
     } catch (error) {
         throw error;
     }
